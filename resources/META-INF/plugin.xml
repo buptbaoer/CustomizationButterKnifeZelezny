@@ -1,0 +1,122 @@
+<idea-plugin version="2">
+    <id>eu.inmite.android.plugin.butterknifezelezny</id>
+    <name>Android ButterKnife Zelezny</name>
+    <version>1.7.0-SNAPSHOT</version>
+    <vendor email="android@avast.com" url="http://github.com/avast">Avast</vendor>
+
+    <description><![CDATA[
+      Plugin for generating ButterKnife injections from selected layout XMLs in activities/fragments/adapters.
+      ]]></description>
+
+    <change-notes><![CDATA[
+<html>
+
+  <b>1.7.0-SNAPSHOT</b>
+  <ul>
+  </ul>
+
+  <b>1.6.0</b> (3/22/2017)
+  <ul>
+    <li>Added support for Unbinder in ButterKnife 8 (#97)</li>
+    <li>Fixed finding IDs for layouts named 'title_bar' (#103)</li>
+    <li>Updated test-app</li>
+    <li>Added support for generating separate OnClick methods</li>
+  </ul>
+
+  <b>1.5.0</b> (5/2/2016)
+  <ul>
+    <li>Support for ButterKnife 8.0.0 (#93)</li>
+    <li>Added &quot;select/deselect all&quot; checkbox (#89)</li>
+  </ul>
+
+  <b>1.4.0</b> (2/2/2016)
+  <ul>
+    <li>Support for @OnClick (#73)</li>
+    <li>Fixed plugin crashes (#62 and #52)</li>
+  </ul>
+
+  <b>1.3.2</b> (7/17/2015)
+  <ul>
+    <li>Fixed plugin crash (#60)</li>
+    <li>Bugfixes</li>
+  </ul>
+
+  <b>1.3.1</b> (7/16/2015)
+  <ul>
+    <li>Fixed plugin crash (#57)</li>
+  </ul>
+
+  <b>1.3</b> (7/15/2015)
+  <ul>
+    <li>Support for ButterKnife 7</li>
+    <li>Support for different ButterKnife versions in different modules</li>
+    <li>Navigation support between @OnClick method and corresponding @Bind/@InjectView field</li>
+  </ul>
+
+  <b>1.2</b> (2/9/2015)
+  <ul>
+  	<li>It's possible to set empty member prefix (#24)</li>
+  	<li>Fix for wrong injections in Fragment's onCreateView (#28)</li>
+  	<li>Fix for adding unnecessary injections (#26)</li>
+  </ul>
+
+  <b>1.1</b> (7/21/2014)
+  <ul>
+    <li>new settings: change default prefix and ViewHolder class name</li>
+    <li>adds ButterKnife inject() and reset() methods if not present</li>
+    <li>dialog can be confirmed by ENTER</li>
+    <li>bugfixes</li>
+  </ul>
+
+  <b>1.0.1</b> (1/6/2014)
+  <ul>
+    <li>Fix for Java 6</li>
+  </ul>
+
+  <b>1.0</b> (12/30/2013)
+  <ul>
+    <li>Initial release</li>
+  </ul>
+</html>
+      ]]></change-notes>
+
+    <idea-version since-build="123.72"/>
+
+    <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
+                   on how to target different products -->
+    <depends>com.intellij.modules.lang</depends>
+
+    <actions>
+        <action id="AddInjectionsAction"
+                class="com.avast.android.butterknifezelezny.InjectAction"
+                text="Generate _Butterknife Injections"
+                icon="/icons/butterknife-zelezny.png"
+                description="Plugin for generating ButterKnife injections from selected layout XMLs in activities/fragments/adapters">
+
+            <keyboard-shortcut
+                    keymap="$default"
+                    first-keystroke="shift control B"/>
+            <add-to-group group-id="GenerateGroup"/>
+            <!-- <add-to-group group-id="ProjectViewPopupMenu" /> file pop-up -->
+        </action>
+    </actions>
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+        <applicationConfigurable instance="com.avast.android.butterknifezelezny.setting.FormatConfigurable"/>
+        <applicationService serviceInterface="com.avast.android.butterknifezelezny.setting.FormatSetting"
+                            serviceImplementation="com.avast.android.butterknifezelezny.setting.FormatSetting"/>
+    </extensions>
+
+    <actions>
+        <action id="HolderMethodInjectionAction"
+                class="com.avast.android.butterknifezelezny.HolderMethodInjectionAction"
+                text="Generate _ButterKnife setMethod">
+            <add-to-group group-id="GenerateGroup" anchor="last"/>
+        </action>
+    </actions>
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationConfigurable instance="com.avast.android.butterknifezelezny.Settings"/>
+        <codeInsight.lineMarkerProvider language="JAVA"
+                                        implementationClass="com.avast.android.butterknifezelezny.navigation.NavigationMarkerProvider"/>
+    </extensions>
+</idea-plugin>
