@@ -113,17 +113,6 @@ public class HolderMethodInjectionAction extends AnAction {
 
     private String buildSet(PsiField field) {
         StringBuilder sb = new StringBuilder();
-        String paramsName=field.getName();
-        if (field.getType().getPresentableText().contains("TextView")) {
-            paramsName="str";
-        } else if (field.getType().getPresentableText().contains("ImageView"))
-        {
-            paramsName="imageUrl";
-        }
-        String doc = this.format("set", field,paramsName);
-        if (doc != null) {
-            sb.append(doc);
-        }
 
         sb.append("public ");
         if (field.getModifierList().hasModifierProperty("static")) {
@@ -157,7 +146,15 @@ public class HolderMethodInjectionAction extends AnAction {
     }
 
     private String getFirstUpperCase(String oldStr) {
-        return oldStr.substring(0, 1).toUpperCase() + oldStr.substring(1);
+        if (oldStr != null && oldStr.length() > 1) {
+            String secondChar = oldStr.substring(1, 2);
+            if (oldStr.startsWith("m") && secondChar.equals(secondChar.toUpperCase())) {
+                return oldStr.substring(1);
+            } else {
+                return oldStr.substring(0, 1).toUpperCase() + oldStr.substring(1);
+            }
+        }
+        return oldStr;
     }
 
     private PsiClass getPsiMethodFromContext(AnActionEvent e) {
